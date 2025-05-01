@@ -57,8 +57,13 @@ flutter:
     - assets/images/background.png
     - assets/images/ball.png
     - assets/images/you_won.png
-
-
+    - assets/images/one.png
+    - assets/images/two.png
+    - assets/images/three.png
+    - assets/images/four.png
+    - assets/images/five.png
+    - assets/images/six.png
+    - assets/images/sixer.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

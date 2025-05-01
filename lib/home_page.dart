@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'choose_page.dart';
+import 'widgets/choose_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
