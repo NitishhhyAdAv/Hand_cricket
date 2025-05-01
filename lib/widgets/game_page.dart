@@ -2,12 +2,10 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'choose_page.dart';
-import 'game_info_widget.dart';  
-import 'action_buttons_widget.dart';  
-import 'popups_widget.dart';  
-import 'countdown_timer_widget.dart'; 
-
-
+import 'game_info_widget.dart';
+import 'action_buttons_widget.dart';
+import 'popups_widget.dart';
+import 'countdown_timer_widget.dart';
 
 class GamePage extends StatefulWidget {
   final bool isPlayerBattingFirst;
@@ -30,6 +28,7 @@ class _GamePageState extends State<GamePage> {
   Timer? timer;
   bool showSixerImage = false;
   bool showOutImage = false;
+  bool showWinImage = false;
 
   @override
   void initState() {
@@ -83,6 +82,20 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
+  void showWinPopup() {
+    setState(() {
+      showWinImage = true;
+    });
+
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          showWinImage = false;
+        });
+      }
+    });
+  }
+
   void playTurn(int playerInput) {
     if (isGameOver) return;
 
@@ -105,6 +118,7 @@ class _GamePageState extends State<GamePage> {
           if (!isFirstInnings && playerScore > botScore) {
             isGameOver = true;
             message = "You Win!";
+            showWinPopup();
             return;
           }
         }
@@ -149,6 +163,7 @@ class _GamePageState extends State<GamePage> {
   void checkWinner() {
     if (playerScore > botScore) {
       message = "You Win!";
+      showWinPopup();
     } else if (botScore > playerScore) {
       message = "Bot Wins!";
     } else {
@@ -181,38 +196,38 @@ class _GamePageState extends State<GamePage> {
           PopupsWidget(
             showSixerImage: showSixerImage,
             showOutImage: showOutImage,
+            showWinImage: showWinImage,
           ),
           Padding(
-  padding: const EdgeInsets.all(24),
-  child: Column(
-    children: [
-      GameInfoWidget(
-        currentInnings: currentInnings,
-        playerScore: playerScore,
-        botScore: botScore,
-        balls: balls,
-        message: message,
-      ),
-      const Spacer(),
-      if (!isGameOver) ...[
-        CountdownTimerWidget(secondsLeft: secondsLeft), 
-        ActionButtonsWidget(onNumberTap: playTurn),
-      ],
-      if (isGameOver)
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const ChoosePage()),
-              (route) => false,
-            );
-          },
-          child: const Text("Play Again"),
-        ),
-    ],
-  ),
-),
-
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                GameInfoWidget(
+                  currentInnings: currentInnings,
+                  playerScore: playerScore,
+                  botScore: botScore,
+                  balls: balls,
+                  message: message,
+                ),
+                const Spacer(),
+                if (!isGameOver) ...[
+                  CountdownTimerWidget(secondsLeft: secondsLeft),
+                  ActionButtonsWidget(onNumberTap: playTurn),
+                ],
+                if (isGameOver)
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ChoosePage()),
+                        (route) => false,
+                      );
+                    },
+                    child: const Text("Play Again"),
+                  ),
+              ],
+            ),
+          ),
         ],
       ),
     );

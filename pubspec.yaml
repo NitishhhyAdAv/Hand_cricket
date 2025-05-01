@@ -64,6 +64,7 @@ flutter:
     - assets/images/five.png
     - assets/images/six.png
     - assets/images/sixer.png
+    - assets/images/out.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
